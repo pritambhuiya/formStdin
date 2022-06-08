@@ -1,15 +1,24 @@
 class Form {
   #fields;
+  #currentFieldIndex;
 
   constructor(fields) {
     this.#fields = fields;
+    this.#currentFieldIndex = 0;
   }
 
-  display() {
-    return this.#fields.map((theField) => {
-      const { name: field, prompt, response } = theField.getDetails();
-      return { field, prompt, response };
-    });
+  incrementIndex() {
+    return this.#currentFieldIndex++;
+  }
+
+  getCurrentPrompt() {
+    const currentIndex = this.#currentFieldIndex;
+    this.incrementIndex();
+    return this.#fields[currentIndex].getPrompt();
+  }
+
+  submittedAllResponses() {
+    return this.#fields.every((field) => field.getResponse() || '');
   }
 }
 

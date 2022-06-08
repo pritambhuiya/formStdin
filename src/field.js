@@ -9,8 +9,12 @@ class Field {
     this.#response = response;
   }
 
-  getDetails() {
-    return { name: this.#name, prompt: this.#prompt, response: this.#response };
+  getPrompt() {
+    return this.#prompt;
+  }
+
+  getResponse() {
+    return this.#response;
   }
 }
 
