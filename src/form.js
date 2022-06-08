@@ -7,19 +7,36 @@ class Form {
     this.#currentFieldIndex = 0;
   }
 
-  incrementIndex() {
+  #incrementIndex() {
     return this.#currentFieldIndex++;
   }
 
+  #getCurrentField() {
+    return this.#fields[this.#currentFieldIndex];
+  }
+
   getCurrentPrompt() {
-    const currentIndex = this.#currentFieldIndex;
-    this.incrementIndex();
-    return this.#fields[currentIndex].getPrompt();
+    return this.#getCurrentField().getPrompt();
   }
 
   submittedAllResponses() {
-    return this.#fields.every((field) => field.getResponse() || '');
+    return this.#fields.every((field) => field.isResponseFound());
+  }
+
+  fillField(response) {
+    this.#getCurrentField().setResponse(response);
+    this.#incrementIndex();
+  }
+
+  getAllResponses() {
+    return this.#fields.map((field) => getResponse(field));
   }
 }
 
-module.exports = { Form };
+const getResponse = (field) => {
+  const name = field.getName();
+  const response = field.getResponse();
+  return { field: name, response };
+};
+
+module.exports = { Form, getResponse };

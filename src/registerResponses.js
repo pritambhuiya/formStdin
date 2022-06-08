@@ -1,22 +1,35 @@
-process.stdin.setEncoding('utf8');
+const { Form } = require('./form.js');
+const { Field } = require('./Field.js');
 
-const registerResponses = () => {
-  let index = 0;
-  const responses = [];
-  console.log('hi1');
+const displayPrompt = (form) => console.log(form.getCurrentPrompt());
+
+const registerResponses = (form) => {
+  displayPrompt(form);
 
   process.stdin.on('data', (chunk) => {
-    responses.push(chunk.trim());
-    index++;
+    form.fillField(chunk.trim());
 
-    if (index > 2) {
+    if (form.submittedAllResponses()) {
       console.log('Thank you');
-      console.log(responses);
+      console.log(form.getAllResponses());
       process.stdin.destroy();
       return;
     }
-    console.log('hi');
+
+    displayPrompt(form);
   });
 };
 
-registerResponses();
+const createForm = () => {
+  const nameField = new Field('name', 'Enter name');
+  const dobField = new Field('dob', 'Enter dob');
+  return new Form([nameField, dobField]);
+};
+
+const main = () => {
+  process.stdin.setEncoding('utf8');
+  const form = createForm();
+  registerResponses(form);
+};
+
+main();
