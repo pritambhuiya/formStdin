@@ -1,6 +1,8 @@
 # TODO
-  - [ ] Take input form stdin
-  - [ ] Take input for three times only and close the input stream
+  - [x] Create registerResponses.js
+  - [x] Take input form stdin
+  - [x] Take input for three times only 
+  - [x] Display `thank you` and close the input stream
   - [ ] Keep stdin seperate from other problems.
   - [ ] Create a class for form
   - [ ] Create a class for field
