@@ -3,33 +3,35 @@ const { Field } = require('./Field.js');
 
 const displayPrompt = (form) => console.log(form.getCurrentPrompt());
 
-const registerResponses = (form) => {
-  displayPrompt(form);
+const registerResponses = (form, response) => {
+  form.fillField(response.trim());
 
-  process.stdin.on('data', (chunk) => {
-    form.fillField(chunk.trim());
-
-    if (form.submittedAllResponses()) {
-      console.log('Thank you');
-      console.log(form.getAllResponses());
-      process.stdin.destroy();
-      return;
-    }
-
+  if (!form.submittedAllResponses()) {
     displayPrompt(form);
-  });
+    return;
+  }
+
+  console.log('Thank you');
+  console.log(form.getAllResponses());
+  process.stdin.destroy();
 };
 
 const createForm = () => {
   const nameField = new Field('name', 'Enter name');
   const dobField = new Field('dob', 'Enter dob');
+
   return new Form([nameField, dobField]);
 };
+
+const readResponses = (form) =>
+  process.stdin.on('data', (response) => registerResponses(form, response));
 
 const main = () => {
   process.stdin.setEncoding('utf8');
   const form = createForm();
-  registerResponses(form);
+
+  displayPrompt(form);
+  readResponses(form);
 };
 
-main();
+module.exports = { main, registerResponses };

@@ -1,5 +1,4 @@
 # TODO
-  - [ ] Extract readResponse function from stdin
   - [ ] Implement validation
     - [ ] Length of name should be greater than 5
     - [ ] Dob should be in yyyy-mm-dd format
@@ -16,10 +15,13 @@
   - [ ] Implement address field
   - [ ] Refactor registerResponses function
   - [ ] Keep stdin seperate from other problems.
+  - [ ] Indirect files for validation of readResponses
 
 # CONSIDER
 
 # DONE
+  - [x] Extract readResponses function from stdin
+  - [x] Extract main in main.js
   - [x] Wire up class Form and Field to registerResponse
   - [x] Extract getAllResponses method in Form
   - [x] Extract getName method in Field
