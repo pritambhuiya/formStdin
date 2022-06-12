@@ -1,7 +1,25 @@
 const { Form } = require('./form.js');
 const { Field } = require('./Field.js');
+const fs = require('fs');
 
 const displayPrompt = (form) => console.log(form.getCurrentPrompt());
+
+const writeFile = (content) =>
+  fs.writeFileSync('responses.json', JSON.stringify(content), 'utf8');
+
+const parseResponses = (responses) => {
+  const parsedResponses = {};
+  responses.forEach(({ field, response }) => {
+    parsedResponses[field] = response;
+  });
+
+  return parsedResponses;
+};
+
+const storeInJson = (content) => {
+  const parsedResponses = parseResponses(content);
+  writeFile(parsedResponses);
+};
 
 const registerResponses = (form, response) => {
   form.fillField(response.trim());
@@ -12,7 +30,7 @@ const registerResponses = (form, response) => {
   }
 
   console.log('Thank you');
-  console.log(form.getAllResponses());
+  storeInJson(form.getAllResponses());
   process.stdin.destroy();
 };
 
